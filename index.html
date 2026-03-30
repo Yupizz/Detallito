@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(0,0,0,0.3);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: linear-gradient(45deg, #ffffff33, #ffffff66);
+      border: none;
+      padding: 10px 18px;
+      margin: 5px;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .contenido {
+      margin-top: 20px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .corazon {
+      font-size: 22px;
+      animation: latido 1s infinite;
+    }
+
+    @keyframes latido {
+      0% {transform: scale(1);}
+      50% {transform: scale(1.4);}
+      100% {transform: scale(1);}
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      width: 15px;
+      height: 15px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      animation: subir 8s linear infinite;
+    }
+
+    @keyframes subir {
+      from {transform: translateY(0);}
+      to {transform: translateY(-110vh);}
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container" id="app">
+  <h1>💖 top cosas que me gustan de ti</h1>
+  <p>preparate ok?</p>
+  <button onclick="intro()">siguiente</button>
+</div>
+
+<script>
+
+function intro() {
+  document.getElementById("app").innerHTML = `
+    <h1>💌</h1>
+    <p>¿estás lista?</p>
+    <button onclick="empezar()">siguiente 👀</button>
+  `;
+}
+
+function empezar() {
+  document.getElementById("app").innerHTML = `
+    
+    <p>no seas sapasa y lee todo uno por uno </p>
+
+    <div>
+      <button id="b1" onclick="mostrar(1)">Nivel 1</button>
+      <button id="b2" class="locked">Nivel 2</button>
+      <button id="b3" class="locked">Nivel 3</button>
+      <button id="b4" class="locked">no abras esto</button>
+    </div>
+
+    <div id="contenido" class="contenido"></div>
+  `;
+
+  mostrar(1);
+}
+
+function mostrar(nivel) {
+  let texto = "";
+
+  if (nivel === 1) {
+    texto = `
+      <p> En primer lugar Me encanta tu forma de hablar sobre todo cuando estás medio renegoncita, no sé por qué pero me gusta demasiado. </p>
+
+      <p> Me gusta que me hagas preguntas que me ponen nervioso… pero igual lo adoro. </p>
+
+      <p> Me encanta cuando te ríes de mis sonseras… tienes una risa muy bonita, podría escucharla todo el día. </p>
+
+      <p> Me gusta que seas jodida conmigo… porque eres tú, y contigo no molesta. </p>
+
+      <button onclick="activar(2)">¿quieres continuar? 👀</button>
+    `;
+  }
+
+  if (nivel === 2 && !document.getElementById("b2").classList.contains("locked")) {
+    texto = `
+      <p> Me encanta cuando me pides que te cuente cuentos sacas un lado mío que casi no muestro. </p>
+
+      <p>Me gusta que siempre quieras tener la razón obviamente q siempre la tienes.</p>
+
+      <p>Me encanta que me cuentes tu día, tu tarde, tu noche, podría escucharte sin aburrirme.</p>
+
+      <button onclick="activar(3)">seguir 👀</button>
+    `;
+  }
+
+  if (nivel === 3 && !document.getElementById("b3").classList.contains("locked")) {
+    texto = `
+      <p>Me encanta que seas dramática… porque sin darme cuenta sacas algo en mí.</p>
+
+      <p>cuando me dices "te odio" y obviamente te lo digo y te lo vuelvo a decir q como podría siquiera odiarte a ti? o sea no puedo odiarte y pq lo haría?
+</p>
+
+      <p>Y la verdad… me gusta todo de ti, incluso esas cosas que tal vez tú ni notas.</p>
+
+      <button onclick="activar(4)">último 👀</button>
+    `;
+  }
+
+  if (nivel === 4 && !document.getElementById("b4").classList.contains("locked")) {
+    advertenciaPaso = 0;
+    advertencia();
+    return;
+  }
+
+  document.getElementById("contenido").innerHTML = texto;
+}
+
+function advertencia() {
+  let contenido = document.getElementById("contenido");
+
+  if (advertenciaPaso === 0) {
+    contenido.innerHTML = `
+      <p>¿estás segura que quieres verlo? 👀</p>
+      <button onclick="siguienteAdvertencia()">sí…</button>
+    `;
+  }
+
+  else if (advertenciaPaso === 1) {
+    contenido.innerHTML = `
+      <p>mmm… no sé, mejor no lo abras 😶</p>
+      <button onclick="siguienteAdvertencia()">igual quiero verlo</button>
+    `;
+  }
+
+  else if (advertenciaPaso === 2) {
+    contenido.innerHTML = `
+      <p>ya no hay vuelta atrás…</p>
+      <button onclick="siguienteAdvertencia()">dale</button>
+    `;
+  }
+
+  else {
+    contenido.innerHTML = `
+      <p>igual llegaste hasta aquí…</p>
+      
+      <p>solo quería decir que me gusta hablar contigo.</p>
+
+      <p>y que probablemente me gustas más de lo que debería.</p>
+
+      <p>es un sentimeinto q no puedo explicarlo mucho con palabras pero eres muy pero muy importante para mi de vdd lo digo de corazón.</p>
+
+      <p class="corazon">❤️</p>
+    `;
+  }
+}
+
+function siguienteAdvertencia() {
+  advertenciaPaso++;
+  advertencia();
+}
+
+function activar(n) {
+  document.getElementById("b" + n).classList.remove("locked");
+  document.getElementById("b" + n).setAttribute("onclick", "mostrar(" + n + ")");
+  mostrar(n);
+}
+
+
+
+function activar(n) {
+  document.getElementById("b" + n).classList.remove("locked");
+  document.getElementById("b" + n).setAttribute("onclick", "mostrar(" + n + ")");
+  mostrar(n);
+}
+
+// burbujas aesthetic
+for (let i = 0; i < 20; i++) {
+  let bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.style.left = Math.random() * 100 + "vw";
+  bubble.style.animationDuration = (5 + Math.random() * 5) + "s";
+  document.body.appendChild(bubble);
+}
+
+</script>
+
+</body>
+</html>
